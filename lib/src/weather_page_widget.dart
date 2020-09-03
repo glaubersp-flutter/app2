@@ -1,8 +1,8 @@
 library app2;
 
-import 'package:app2/src/cubit/weather_cubit.dart';
+import 'package:app2/src/bloc/weather_bloc.dart';
 import 'package:app2/src/repository/weather_repository.dart';
-import 'package:app2/src/widget/cubit_weather_search_page.dart';
+import 'package:app2/src/widget/bloc_weather_search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -30,12 +30,12 @@ class WeatherPageWidget extends StatelessWidget {
           title: Text(title),
         ),
         body: BlocProvider(
-          create: (_) => WeatherCubit(FakeWeatherRepository()),
+          create: (_) => WeatherBloc(FakeWeatherRepository()),
           child: Center(
             child: Column(
               children: [
                 Text("Hello, $message!"),
-                CubitWeatherSearchPage(),
+                BlocWeatherSearchPage(),
                 RaisedButton(
                   child: Text("Back"),
                   onPressed: () {
