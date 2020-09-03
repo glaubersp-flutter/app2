@@ -1,7 +1,7 @@
-import 'package:app2/src/secondPageWidget.dart';
+import 'package:app2/src/weather_page_widget.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-export 'src/secondPageWidget.dart';
+export 'src/weather_page_widget.dart';
 
 class App2Module extends ChildModule {
   static Inject get to => Inject<App2Module>.of();
@@ -11,6 +11,6 @@ class App2Module extends ChildModule {
 
   @override
   List<ModularRouter> get routers => [
-        ModularRouter('/', child: (_, args) => SecondPageWidget()),
+        ModularRouter('/', child: (_, args) => WeatherPageWidget()),
       ];
 }
