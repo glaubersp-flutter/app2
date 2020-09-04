@@ -14,37 +14,30 @@ class SecondPageArguments {
 }
 
 class WeatherPageWidget extends StatelessWidget {
-  static const routeName = '/second';
-
   @override
   Widget build(BuildContext context) {
     final Map args = ModalRoute.of(context).settings.arguments ?? {};
     final String title =
-        args.containsKey('title') ? args['title'] : "Second Page";
-    final String message = args.containsKey('message')
-        ? args['message']
-        : "Message from Second Page";
+        args.containsKey('title') ? args['title'] : "Weather Example";
 
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-        ),
-        body: BlocProvider(
-          create: (_) => WeatherBloc(FakeWeatherRepository()),
-          child: Center(
-            child: Column(
-              children: [
-                Text("Hello, $message!"),
-                BlocWeatherSearchPage(),
-                RaisedButton(
-                  child: Text("Back"),
-                  onPressed: () {
-                    Navigator.pop(context, 'Return from Second Page');
-                  },
-                )
-              ],
-            ),
+    return Theme(
+      data: ThemeData.from(
+          colorScheme: ColorScheme.fromSwatch(
+              backgroundColor: Colors.white, primarySwatch: Colors.green)),
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text(title),
           ),
-        ));
+          body: BlocProvider(
+            create: (_) => WeatherBloc(OpenWeatherRepository()),
+            child: Center(
+              child: Column(
+                children: [
+                  BlocWeatherSearchPage(),
+                ],
+              ),
+            ),
+          )),
+    );
   }
 }

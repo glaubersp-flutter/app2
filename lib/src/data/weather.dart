@@ -20,4 +20,12 @@ class Weather {
 
   @override
   int get hashCode => cityName.hashCode ^ temperatureCelsius.hashCode;
+
+  factory Weather.fromJson(String cityName, Map<String, dynamic> json) {
+    double temp = double.tryParse(json['current']['temp'].toString());
+    return Weather(
+      cityName: cityName,
+      temperatureCelsius: temp,
+    );
+  }
 }

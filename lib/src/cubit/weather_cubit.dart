@@ -10,10 +10,20 @@ class WeatherCubit extends Cubit<WeatherState> {
 
   WeatherCubit(this._weatherRepository) : super(WeatherInitial());
 
-  Future<void> getWeather(String cityName) async {
+  Future<void> getWeatherByCity(String cityName) async {
     try {
       emit(WeatherLoading());
-      final weather = await _weatherRepository.fetchWeather(cityName);
+      final weather = await _weatherRepository.fetchWeatherByCityName(cityName);
+      emit(WeatherLoaded(weather));
+    } on NetworkException {
+      emit(WeatherError("Error fetching weather!"));
+    }
+  }
+
+  Future<void> getWeatherByLocation(String cityName) async {
+    try {
+      emit(WeatherLoading());
+      final weather = await _weatherRepository.fetchWeatherByCityName(cityName);
       emit(WeatherLoaded(weather));
     } on NetworkException {
       emit(WeatherError("Error fetching weather!"));

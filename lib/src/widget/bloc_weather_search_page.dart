@@ -72,23 +72,50 @@ class BlocWeatherSearchPage extends StatelessWidget {
 class CityInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 50),
-      child: TextField(
-        onSubmitted: (value) => submitCityName(context, value),
-        textInputAction: TextInputAction.search,
-        decoration: InputDecoration(
-          hintText: "Enter a city",
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-          suffixIcon: Icon(Icons.search),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 50),
+          child: TextField(
+            onSubmitted: (value) => _getTemperatureByCityName(context, value),
+            textInputAction: TextInputAction.search,
+            decoration: InputDecoration(
+              hintText: "Enter a city",
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              suffixIcon: Icon(Icons.search),
+            ),
+          ),
         ),
-      ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: FlatButton(
+            child: Text(
+              "Use current location",
+              style: TextStyle(fontSize: 20),
+            ),
+            onPressed: () => _getTemperatureByCurrentLocation(context),
+            color: Theme.of(context).colorScheme.primary,
+            textColor: Colors.white,
+            disabledColor: Colors.grey,
+            disabledTextColor: Colors.black,
+            padding: EdgeInsets.all(8.0),
+            splashColor: Colors.blueAccent,
+          ),
+        ),
+      ],
     );
   }
 
-  void submitCityName(BuildContext context, String cityName) {
+  void _getTemperatureByCityName(BuildContext context, String cityName) {
     // BlocProvider.of<WeatherCubit>(context);
     final weatherBloc = context.bloc<WeatherBloc>();
-    weatherBloc.add(GetWeatherEvent(cityName));
+    weatherBloc.add(GetWeatherEventByCityName(cityName));
+  }
+
+  void _getTemperatureByCurrentLocation(BuildContext context) {
+    // BlocProvider.of<WeatherCubit>(context);
+    final weatherBloc = context.bloc<WeatherBloc>();
+    weatherBloc.add(GetWeatherEventByCurrentLocation());
   }
 }
