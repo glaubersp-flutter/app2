@@ -77,6 +77,7 @@ class CityInputField extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 50),
           child: TextField(
+            key: Key("CityTextField"),
             onSubmitted: (value) => _getTemperatureByCityName(context, value),
             textInputAction: TextInputAction.search,
             decoration: InputDecoration(
@@ -90,6 +91,7 @@ class CityInputField extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: FlatButton(
+            key: Key("CurrentLocationButton"),
             child: Text(
               "Use current location",
               style: TextStyle(fontSize: 20),

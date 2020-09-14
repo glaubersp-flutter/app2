@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-class Weather {
+class Weather extends Equatable {
   final String cityName;
   final double temperatureCelsius;
 
@@ -28,4 +29,7 @@ class Weather {
       temperatureCelsius: temp,
     );
   }
+
+  @override
+  List<Object> get props => [cityName, temperatureCelsius];
 }

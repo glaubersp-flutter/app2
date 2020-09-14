@@ -31,7 +31,7 @@ class WeatherLoaded extends WeatherState {
   int get hashCode => super.hashCode ^ weather.hashCode;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [weather];
 }
 
 class WeatherError extends WeatherState {
@@ -50,5 +50,5 @@ class WeatherError extends WeatherState {
   @override
   int get hashCode => super.hashCode ^ message.hashCode;
 
-  List<Object> get props => [];
+  List<Object> get props => [message];
 }
