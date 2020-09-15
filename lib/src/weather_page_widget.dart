@@ -1,10 +1,7 @@
 library app2;
 
-import 'package:app2/src/bloc/weather_bloc.dart';
-import 'package:app2/src/repository/weather_repository.dart';
 import 'package:app2/src/widget/bloc_weather_search_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SecondPageArguments {
   final String title;
@@ -16,9 +13,7 @@ class SecondPageArguments {
 class WeatherPageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final Map args = ModalRoute.of(context).settings.arguments ?? {};
-    final String title =
-        args.containsKey('title') ? args['title'] : "Weather Example";
+    final String title = getTitle(context);
 
     return Theme(
       data: ThemeData.from(
@@ -26,18 +21,22 @@ class WeatherPageWidget extends StatelessWidget {
               backgroundColor: Colors.white, primarySwatch: Colors.green)),
       child: Scaffold(
           appBar: AppBar(
-            title: Text(title),
+            title: Text(title, key: Key("WeatherPageTitle")),
           ),
-          body: BlocProvider(
-            create: (_) => WeatherBloc(OpenWeatherRepository()),
-            child: Center(
-              child: Column(
-                children: [
-                  BlocWeatherSearchPage(),
-                ],
-              ),
-            ),
-          )),
+          body: BlocWeatherSearchPage()),
     );
+  }
+
+  String getTitle(BuildContext context) {
+    Map args;
+    var modalRoute = ModalRoute.of(context);
+
+    if (modalRoute != null) {
+      args = modalRoute.settings.arguments ?? {};
+    } else {
+      args = {};
+    }
+
+    return args.containsKey('title') ? args['title'] : "Weather Example";
   }
 }

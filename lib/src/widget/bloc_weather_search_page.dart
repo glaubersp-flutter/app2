@@ -1,38 +1,57 @@
 import 'package:app2/src/bloc/weather_bloc.dart';
 import 'package:app2/src/data/weather.dart';
+import 'package:app2/src/repository/weather_repository.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BlocWeatherSearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 16),
-      alignment: Alignment.center,
-      child: BlocConsumer<WeatherBloc, WeatherState>(
-        listener: (context, state) {
-          if (state is WeatherError) {
-            Scaffold.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
+    return BlocProvider(
+      create: (_) => buildWeatherBloc(),
+      child: Center(
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 16),
+              alignment: Alignment.center,
+              child: BlocConsumer<WeatherBloc, WeatherState>(
+                listener: (context, state) {
+                  if (state is WeatherError) {
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(state.message),
+                      ),
+                    );
+                  }
+                },
+                builder: (context, state) {
+                  if (state is WeatherInitial) {
+                    return buildInitialInput();
+                  } else if (state is WeatherLoading) {
+                    return buildLoading();
+                  } else if (state is WeatherLoaded) {
+                    return buildColumnWithData(state.weather);
+                  } else {
+                    // (state is WeatherError)
+                    return buildInitialInput();
+                  }
+                },
               ),
-            );
-          }
-        },
-        builder: (context, state) {
-          if (state is WeatherInitial) {
-            return buildInitialInput();
-          } else if (state is WeatherLoading) {
-            return buildLoading();
-          } else if (state is WeatherLoaded) {
-            return buildColumnWithData(state.weather);
-          } else {
-            // (state is WeatherError)
-            return buildInitialInput();
-          }
-        },
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  WeatherBloc buildWeatherBloc() {
+    if (kReleaseMode) {
+      return WeatherBloc(OpenWeatherRepository());
+    } else {
+      return WeatherBloc(FakeWeatherRepository());
+    }
   }
 
   Widget buildInitialInput() {
@@ -57,10 +76,12 @@ class BlocWeatherSearchPage extends StatelessWidget {
             fontSize: 40,
             fontWeight: FontWeight.w700,
           ),
+          key: Key("CityName"),
         ),
         Text(
           // Display the temperature with 1 decimal place
           "${weather.temperatureCelsius.toStringAsFixed(1)} °C",
+          key: Key("TemperatureText"),
           style: TextStyle(fontSize: 80),
         ),
         CityInputField(),
