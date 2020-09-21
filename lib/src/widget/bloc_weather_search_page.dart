@@ -1,6 +1,7 @@
 import 'package:app2/src/bloc/weather_bloc.dart';
 import 'package:app2/src/data/weather.dart';
-import 'package:app2/src/repository/weather_repository.dart';
+import 'package:app2/src/repository/fake_weather_repository.dart';
+import 'package:app2/src/repository/open_weather_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
