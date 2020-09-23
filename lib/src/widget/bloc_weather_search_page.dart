@@ -1,7 +1,7 @@
 import 'package:app2/src/bloc/weather_bloc.dart';
 import 'package:app2/src/data/weather.dart';
-import 'package:app2/src/repository/fake_weather_repository.dart';
 import 'package:app2/src/repository/open_weather_repository.dart';
+import 'package:app2/src/repository/web_weather_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,11 +48,18 @@ class BlocWeatherSearchPage extends StatelessWidget {
   }
 
   WeatherBloc buildWeatherBloc() {
-    if (kReleaseMode) {
-      return WeatherBloc(OpenWeatherRepository());
-    } else {
-      return WeatherBloc(FakeWeatherRepository());
+    if (kIsWeb) {
+      return WeatherBloc(WebRepository());
     }
+    // if (Platform.) {
+    //   return WeatherBloc(OpenWeatherRepository());
+    // }
+    return WeatherBloc(OpenWeatherRepository());
+    // if (kReleaseMode) {
+    //   return WeatherBloc(OpenWeatherRepository());
+    // } else {
+    //   return WeatherBloc(FakeWeatherRepository());
+    // }
   }
 
   Widget buildInitialInput() {
